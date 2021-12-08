@@ -54,13 +54,19 @@ let cardTotal;
 let player;
 let dealer;
 
-// REFERENCE hitBtn, standBtn, startBtn, howToPlayBtn, startModalBtn, closeHowToPlayBtn, reDealBtn
+// REFERENCE hitBtn, standBtn, startBtn, howToPlayBtn, startModalBtn, closeHowToPlayBtn, reDealBtn, card divs for dealer and player
 
 const hitBtn = document.querySelector('.hit');
 const dblBtn = document.querySelector('.double');
 const standBtn = document.querySelector('.stand');
 const startBtn = document.querySelector('.start-game');
 const reDealBtn = document.querySelector('.redeal');
+
+let playerBot = document.querySelector('.player-bottom-card');
+let playerTop = document.querySelector('.dealer-top-card');
+
+let dealerBot = document.querySelector('.dealer-bottom-card');
+let dealerTop = document.querySelector('.dealer-top-card');
 
 // make sure html classes match these event listeners
 // const howToPlayBtn = document.querySelector('.how-to-play');
@@ -75,22 +81,52 @@ const reDealBtn = document.querySelector('.redeal');
 hitBtn.addEventListener('click', addCard);
 dblBtn.addEventListener('click', dblBet);
 standBtn.addEventListener('click', stand);
-startBtn.addEventListener('click', deal);
-reDealBtn.addEventListener('click', redeal);
+startBtn.addEventListener('click', dealCards);
+reDealBtn.addEventListener('click', redealCards);
 // DECLARE function to:
 
 // - DEAL
 //   randomly assign card to player (face up), dealer (face up), player (face up), dealer (face down)
 
-function deal() {
-	console.log('deal meow');
+function shuffleCards() {
+	for (let i = 0; i < FiftyTwoCards.length; i++) {
+		let placeholder = FiftyTwoCards[i];
+		let randomPosition = Math.floor(Math.random() * FiftyTwoCards.length);
+		FiftyTwoCards[i] = FiftyTwoCards[randomPosition];
+		FiftyTwoCards[randomPosition] = placeholder;
+	}
 }
+
+shuffleCards(); // need logic for "card cut" when user selects number of decks and cut
+//!! is there a better way to do this
+//!! would it make more sense to put hands into an array?
+function dealCards() {
+	playerBot = FiftyTwoCards[0];
+	document.getElementById('player-bottom-card').innerHTML =
+		FiftyTwoCards[0].rank;
+	FiftyTwoCards.shift();
+	document.getElementById('dealer-bottom-card').innerHTML =
+		FiftyTwoCards[1].rank;
+	FiftyTwoCards.shift();
+	playerTop = FiftyTwoCards[2];
+	document.getElementById('player-top-card').innerHTML = FiftyTwoCards[2].rank;
+	FiftyTwoCards.shift();
+	dealerTop = FiftyTwoCards[3];
+	document.getElementById('dealer-top-card').innerHTML = FiftyTwoCards[3].rank;
+	FiftyTwoCards.shift();
+}
+
+dealCards();
+console.log(FiftyTwoCards);
 
 // - HIT
 //   add card
 
 function addCard() {
-	console.log('add meow card');
+	// newCardSlot = document.createElement('div');
+	// newCardSlot.appendChild(FiftyTwoCards[0]);
+	// console.log(newCardSlot);
+	// FiftyTwoCards.shift();
 }
 
 // - DOUBLE
@@ -110,7 +146,7 @@ function stand() {
 // - REDEAL
 //   round has ended, alter bankroll, remove played cards from divs/deck and redeal new cards
 
-function redeal() {
+function redealCards() {
 	console.log('redeal right meow');
 }
 
