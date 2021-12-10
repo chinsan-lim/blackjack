@@ -1,0 +1,114 @@
+body {
+	font-family: Poppins;
+	background-color: forestgreen;
+}
+
+button {
+	font-family: Poppins;
+	display: flex;
+	justify-content: center;
+}
+
+.header {
+	display: flex;
+	justify-content: space-around;
+	margin: 2rem;
+}
+
+input {
+	font-family: Poppins;
+}
+
+h1 {
+	display: flex;
+	justify-content: center;
+	font-size: 4.5rem;
+	font-weight: 800;
+	margin: 1rem;
+	background-color: red;
+}
+
+h2 {
+	font-size: 1.5rem;
+	font-weight: 300;
+	letter-spacing: 5px;
+	display: flex;
+	justify-content: center;
+}
+.dealer-container,
+.player-container {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: center;
+	margin: 9em;
+	border: 5px solid black;
+}
+. .game-board {
+	display: inline-flex;
+	justify-content: center;
+	height: 500px;
+}
+
+.dealer-bottom-card,
+.dealer-top-card,
+.player-bottom-card,
+.player-top-card {
+	border: 5px solid black;
+	margin: 10px;
+}
+
+.user-actions {
+	display: flex;
+	justify-content: center;
+}
+
+/* ---------------------------------- MODALS ---------------------------------- */
+
+#modal {
+	background-color: rgba(0, 0, 0, 0.4);
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 1;
+	/*This puts our modal in front of the body (which has a default z-index setting of `0`*/
+	overflow: auto;
+	/*If overflow is clipped, a scroll-bar should be added to see the rest of the content*/
+	display: none;
+	/*Set this to `none` so that the modal does not show initially on page load.*/
+}
+
+#modal-textbox {
+	background-color: white;
+	height: 350px;
+	width: 550px;
+	border-radius: 2px;
+	margin: 150px auto;
+	/*This will set the margins for the top and the bottom to 150px (or larger). The right and left will automatically set themselves (and keep the box centered horizontally).*/
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+	/*This will give the box some depth.*/
+	padding: 2%;
+	line-height: 120%;
+	font-family: 'Arial';
+}
+
+#modal-footer {
+	text-align: right;
+}
+
+h1 {
+	padding-bottom: 15px;
+}
+
+.modal-buttons {
+	padding: 14px 18px;
+	background-color: #677996;
+	border: none;
+	outline: none;
+	border-radius: 3px;
+	color: white;
+	font-family: 'Arial';
+	cursor: pointer;
+}

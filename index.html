@@ -5,32 +5,71 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <title>Blackjack</title>
 </head>
 
 <body>
-    <h1>BLACKJACK</h1>
-    <button class = "start-game">start game</button>
-    <h2>dealer hand</h2>
-    <div class="dealer-container">
-        <!-- hide and toggle bottom card after function -->
-        <div id="dealer-bottom-card">Bottom Card</div>
-        <div id="dealer-top-card">Top Card</div>
+
+     <h1>blackjack</h1>
+
+
+    <br>
+    <div class="header">
+        <button class = "start-game">start game</button>
+        
+            <div id="modal">
+                <div id="modal-textbox">
+                    <h1>Learn to Play Bridge</h1>
+                    <p>Bridge is played with four people sitting at a card table using a standard deck of 52 cards (no jokers). The
+                        players
+                        across from each other form partnerships as North‑South and East‑West.</p>
+                    <p>Draw cards to select the person to deal the cards (the dealer). This person distributes the cards face down,
+                        in
+                        clockwise rotation one at a time, until each player at the table has a hand consisting of 13 cards. </p>
+                    <p>After the play of each deal is completed, the opportunity to deal moves around the table clockwise so that
+                        each
+                        person has a turn to deal out the cards.</p>
+                    <div id="modal-footer">
+                        <button class="modal-buttons" id="close-from-htp" href="#">Start Game</button>
+                    </div>
+                </div>
+            </div>
+
+
+        <button class="how-to-play">how to play</button>
+    </div>
+    <br>
+
+    <div class = game-board>
+        <h2>dealer hand</h2>
+        <div class="dealer-container">
+            <!-- hide and toggle bottom card after function -->
+            <div id="dealer-bottom-card">Bottom Card</div>
+            <div id="dealer-top-card">Top Card</div>
+        </div>
+        <div class ="winner"></div>
+        <div class="player-container">
+            <div id="player-bottom-card">Bottom Card</div>
+            <div id="player-top-card">Top Card</div>
+        </div>
+        <h2>player hand</h2>
     </div>
 
-    <h2>player hand</h2>
-    <div class="player-container">
-        <div id="player-bottom-card">Bottom Card</div>
-        <div id="player-top-card">Top Card</div>
+    <br>
+    
+    <div class = "user-actions">
+    
+        <span>bankroll: <span class="bankroll">$100</span></span>
+        <input type="text" placeholder="bet amt" class="bet-amount">
+
+        <button class="hit">hit</button>
+        <button class="stand">stand</button>
+        <button class="double">double</button>
+        <button class="redeal">redeal</button>
     </div>
 
-    <input type="text" placeholder="bet amt" class="bet-amount">
-     <span>Bankroll: <span class="bankroll">$100</span></span>
-
-    <button class="hit">hit</button>
-    <button class="stand">stand</button>
-    <button class="double">double</button>
-    <button class="redeal">redeal</button>
     <script src="script.js"></script>
 </body>
 
