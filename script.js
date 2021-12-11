@@ -2,13 +2,14 @@
 
 // CREATE 52 card deck
 
-const Cards = function (suit, rank, score) {
+const Cards = function (suit, rank, score, image) {
 	this.suit = suit;
 	this.rank = rank;
 	this.score = score;
+	this.image = image;
 };
 
-const suits = ['♠︎', '♥︎', '♣︎', '♦︎'];
+const suits = ['CLUB', 'DIAMOND', 'HEART', 'SPADES'];
 const ranks = [
 	'A',
 	'2',
@@ -25,31 +26,39 @@ const ranks = [
 	'K',
 ];
 
+// INITIALIZE J, Q, K cards with value of '10', A '11
+
+const score = {
+	A: 11,
+	2: 2,
+	3: 3,
+	4: 4,
+	5: 5,
+	6: 6,
+	7: 7,
+	8: 8,
+	9: 9,
+	10: 10,
+	J: 10,
+	Q: 10,
+	K: 10,
+};
+
 let FiftyTwoCards = [];
 
+//create rect card element here
 for (let i = 0; i < suits.length; i++) {
 	for (let z = 0; z < ranks.length; z++) {
-		FiftyTwoCards.push(new Cards(suits[i], ranks[z], z + 1));
+		FiftyTwoCards.push(new Cards(suits[i], ranks[z], score[ranks[z]]));
 	}
 }
 
 console.log(FiftyTwoCards);
 
-// INITIALIZE J, Q, K cards with value of '10'
-
-for (let i = 0; i < FiftyTwoCards.length; i++) {
-	if (
-		FiftyTwoCards[i].rank === 'J' ||
-		FiftyTwoCards[i].rank === 'Q' ||
-		FiftyTwoCards[i].rank === 'K'
-	) {
-		FiftyTwoCards[i].score = 10;
-	} else if (FiftyTwoCards[i].rank === 'A') {
-		FiftyTwoCards[i].score = 11;
-	}
-}
-
 //CREATE 8 DECKS
+// ---------------------------------- CARD API ---------------------------------- //
+
+// const url = 'http://deckofcardsapi.com/api/deck/new/';
 
 // ---------------------------------- VARIABLES ---------------------------------- //
 // DECLARE constants for deck, blackjack
@@ -106,7 +115,7 @@ const closeHowToPlayBtn = document.querySelector('.close-from-htp');
 hitBtn.addEventListener('click', playerHit);
 // dblBtn.addEventListener('click', dblBet);
 standBtn.addEventListener('click', stand);
-startBtn.addEventListener('click', dealCards);
+startBtn.addEventListener('click', startGame);
 // reDealBtn.addEventListener('click', startGame);
 
 // ---------------------------------- FUNCTIONS ---------------------------------- //
@@ -156,26 +165,6 @@ function dealCards() {
 
 // card totals determined from player/dealer HandArr, populated from deal and each time player hits, dealer adds a card
 
-function playerCardTotal() {
-	playerSum = playerHandArr.reduce(sum);
-
-	for (let i = 0; i < playerHandArr.length; i++) {
-		if (playerHandArr[i] === 11 && playerSum > 21) {
-			playerSum -= 10;
-		}
-	}
-}
-
-function dealerCardTotal() {
-	dealerSum = dealerHandArr.reduce(sum);
-
-	for (let i = 0; i < dealerHandArr.length; i++) {
-		if (dealerHandArr[i] === 11 && dealerHandArr > 21) {
-			dealerHandArr -= 10;
-		}
-	}
-}
-
 // initial: check for player/dealer blackjack
 // in-game: check for blackjack each time a card is add
 
@@ -197,48 +186,86 @@ function checkForBlackjack() {
 	}
 }
 
+function checkForWinner() {
+	if (playerSum === dealerSum) {
+		console.log('push');
+	} else if (playerSum === 21 && playerHandArr.length === 2) {
+		console.log('player blackjack');
+	} else if (
+		dealerSum === 21 &&
+		dealerHandArr.length === 2 &&
+		playerSum !== 21
+	) {
+		console.log('dealer blackjack');
+	} else if (playerSum > dealerSum && playerSum < 21 && dealerSum < 21) {
+		console.log('player wins');
+	} else if (dealerSum > 21) {
+		console.log('dealer bust! player wins');
+	} else if (playerSum < dealerSum && playerSum < 21 && dealerSum < 21) {
+		console.log('dealer wins');
+	} else if (playerSum > 21) {
+		console.log('player bust! dealer wins');
+	}
+}
+
 // PLAYER CHOOSE TO HIT OR STAND
 // hit will add another card to player hand/array
 // stand will move the gameplay to the dealer hit
 
-function playerHit() {
-	//div parent: player-container
+function playerCardTotal() {
+	playerSum = playerHandArr.reduce(sum);
 
+	for (let i = 0; i < playerHandArr.length; i++) {
+		if (playerHandArr[i] === 11 && playerSum > 21) {
+			playerSum -= 10;
+		}
+
+		console.log(playerHandArr);
+		console.log(playerSum);
+	}
+}
+
+function dealerCardTotal() {
+	dealerSum = dealerHandArr.reduce(sum);
+
+	for (let i = 0; i < dealerHandArr.length; i++) {
+		if (dealerSum > 21 && dealerHandArr[i] === 11) {
+			dealerSum -= 10;
+		}
+		console.log(dealerHandArr);
+		console.log(dealerSum);
+	}
+}
+
+function playerHit() {
 	newCardSlot = document.createElement('div');
 	newCardSlot.innerHTML = FiftyTwoCards[0].rank;
 	playerHand.appendChild(newCardSlot);
 	playerHandArr.push(FiftyTwoCards[0].score);
 	FiftyTwoCards.shift();
+
 	playerCardTotal();
-	checkForBlackjack();
 
 	console.log(playerSum);
 }
 
+//if the new card's value is 11 and the total is > 21, subtract 10.
 function dealerHit() {
 	while (dealerSum < 17) {
-		if (dealerSum < 17) {
-			newCardSlot = document.createElement('div');
-			newCardSlot.innerHTML = FiftyTwoCards[0].rank;
-			dealerHand.appendChild(newCardSlot);
-			dealerHandArr.push(FiftyTwoCards[0].score);
-			FiftyTwoCards.shift();
-			dealerCardTotal();
-			checkForBlackjack();
-			console.log(dealerSum);
-		}
+		newCardSlot = document.createElement('div');
+		newCardSlot.innerHTML = FiftyTwoCards[0].rank;
+		dealerHand.appendChild(newCardSlot);
+		dealerHandArr.push(FiftyTwoCards[0].score);
+		FiftyTwoCards.shift();
+
+		dealerCardTotal();
+		console.log(dealerSum);
 	}
 }
 function stand() {
 	hitBtn.disabled = true;
 	dealerHit();
-}
-
-function compareHands() {
-	playerCardTotal();
-	dealerCardTotal();
-
-	//instances: win, lose, push
+	checkForWinner();
 }
 
 // ---------------------------------- START GAME ---------------------------------- //
@@ -251,11 +278,13 @@ function startGame() {
 
 	checkForBlackjack();
 
-	console.log(playerHandArr);
-	console.log(dealerHandArr);
+	//if player gets blackjack first, win
 
-	console.log(dealerSum);
-	console.log(playerSum);
+	// console.log(playerHandArr);
+	// console.log(dealerHandArr);
+
+	// console.log(dealerSum);
+	// console.log(playerSum);
 }
 
 startGame();
