@@ -58,6 +58,58 @@ h2 {
 	margin: 10px;
 }
 
+/* source of card flip animation: https://www.w3schools.com/howto/howto_css_flip_card.asp */
+
+.flip-dealer-card-bottom {
+	background-color: transparent;
+	width: 110.26px;
+	height: 150px;
+	perspective: 1000px;
+}
+
+/* This container is needed to position the front and back side */
+.dealer-card-bottom {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	transition: transform 0.8s;
+	transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-dealer-card-bottom:active .dealer-card-back {
+	transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.dealer-card-back,
+.dealer-card-front {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: center;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	-webkit-backface-visibility: hidden; /* Safari */
+	backface-visibility: hidden;
+}
+
+/* Style the outside of card */
+.dealer-card-back {
+	z-index: 1;
+	margin-top: 10px;
+	height: 150px;
+	width: 113px;
+	background-color: blue;
+	color: black;
+}
+
+/* Style the inside of card */
+.dealer-card-front {
+	/* background-image: ; */
+}
+
 .user-actions {
 	display: flex;
 	justify-content: center;
@@ -66,6 +118,11 @@ h2 {
 img {
 	padding: 10px;
 	height: 150px;
+}
+
+.winner {
+	display: flex;
+	justify-content: center;
 }
 
 /* ---------------------------------- MODALS ---------------------------------- */

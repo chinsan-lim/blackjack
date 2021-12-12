@@ -46,13 +46,22 @@
         <h2>dealer hand</h2>
         <div class="dealer-container">
             <!-- hide and toggle bottom card after function -->
-            <img id="dealer-bottom-card"></img>
-            <img id="dealer-top-card"></img>
+            <div class="flip-dealer-card-bottom">
+                <div class="dealer-card-bottom">
+                    <div class='dealer-card-back'>
+                        <!-- add card back here -->
+                    </div>
+                    <div class="dealer-card-front">
+                        <img id="dealer-bottom-card">
+                    </div>
+                </div>
+            </div>
+            <img id="dealer-top-card">
         </div>
         <div class ="winner"></div>
         <div class="player-container">
-            <img id="player-bottom-card"></img>
-            <img id="player-top-card"></img>
+            <img id="player-bottom-card">
+            <img id="player-top-card">
         </div>
         <h2>player hand</h2>
     </div>
@@ -61,7 +70,7 @@
     
     <div class = "user-actions">
     
-        <span>bankroll: <span class="bankroll">$100</span></span>
+        <span>bankroll: <span class="bankroll"></span></span>
         <input type="text" placeholder="bet amt" class="bet-amount">
 
         <button class="hit">hit</button>
