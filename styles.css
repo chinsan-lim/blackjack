@@ -12,7 +12,7 @@ button {
 .header {
 	display: flex;
 	justify-content: space-around;
-	margin: 2rem;
+	margin: 0.5rem;
 }
 
 input {
@@ -41,7 +41,7 @@ h2 {
 	flex-wrap: wrap;
 	flex-direction: row;
 	justify-content: center;
-	margin: 9em;
+	margin: 2em;
 	border: 5px solid black;
 }
 . .game-board {
@@ -61,6 +61,11 @@ h2 {
 .user-actions {
 	display: flex;
 	justify-content: center;
+}
+
+img {
+	padding: 10px;
+	height: 150px;
 }
 
 /* ---------------------------------- MODALS ---------------------------------- */

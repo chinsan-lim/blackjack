@@ -2,14 +2,17 @@
 
 // CREATE 52 card deck
 
-const Cards = function (suit, rank, score, image) {
+const Cards = function (suit, rank, score, src) {
 	this.suit = suit;
 	this.rank = rank;
 	this.score = score;
-	this.image = image;
+	this.src = src;
 };
 
-const suits = ['CLUB', 'DIAMOND', 'HEART', 'SPADES'];
+//source for adding image in constructor
+//https://codereview.stackexchange.com/questions/111059/dynamically-creating-elements-with-an-object-constructor
+
+const suits = ['CLUB', 'DIAMOND', 'HEART', 'SPADE'];
 const ranks = [
 	'A',
 	'2',
@@ -26,7 +29,7 @@ const ranks = [
 	'K',
 ];
 
-// INITIALIZE J, Q, K cards with value of '10', A '11
+// INITIALIZE J, Q, K cards with value of '10', A '11'
 
 const score = {
 	A: 11,
@@ -49,24 +52,32 @@ let FiftyTwoCards = [];
 //create rect card element here
 for (let i = 0; i < suits.length; i++) {
 	for (let z = 0; z < ranks.length; z++) {
-		FiftyTwoCards.push(new Cards(suits[i], ranks[z], score[ranks[z]]));
+		FiftyTwoCards.push(
+			new Cards(
+				suits[i],
+				ranks[z],
+				score[ranks[z]],
+				`/cards/${suits[i]}-${ranks[z]}.svg`
+			)
+		);
 	}
 }
 
 console.log(FiftyTwoCards);
 
 //CREATE 8 DECKS
-// ---------------------------------- CARD API ---------------------------------- //
+// ---------------------------------- IMG SRC ---------------------------------- //
+// SUIT - RANK
 
-// const url = 'http://deckofcardsapi.com/api/deck/new/';
+// card source images: https://totalnonsense.com/open-source-vector-playing-cards/
 
 // ---------------------------------- VARIABLES ---------------------------------- //
-// DECLARE constants for deck, blackjack
+// DECLARE constants for deck, hand arrays
 
 const deck = FiftyTwoCards;
-const blackjack = 21;
-const playerHandArr = [];
-const dealerHandArr = [];
+
+let playerHandArr = [];
+let dealerHandArr = [];
 
 // DECLARE state variables for bankroll, betAmt, deckSize
 
@@ -95,11 +106,11 @@ const reDealBtn = document.querySelector('.redeal');
 let playerHand = document.querySelector('.player-container');
 let dealerHand = document.querySelector('.dealer-container');
 
-let playerBot = document.querySelector('.player-bottom-card');
-let playerTop = document.querySelector('.dealer-top-card');
+let playerBot = document.querySelector('#player-bottom-card');
+let playerTop = document.querySelector('#dealer-top-card');
 
-let dealerBot = document.querySelector('.dealer-bottom-card');
-let dealerTop = document.querySelector('.dealer-top-card');
+let dealerBot = document.querySelector('#dealer-bottom-card');
+let dealerTop = document.querySelector('#dealer-top-card');
 
 let winner = document.querySelector('.winner');
 
@@ -141,23 +152,21 @@ shuffleCards();
 function dealCards() {
 	playerBot = FiftyTwoCards[0];
 	playerHandArr.push(FiftyTwoCards[0].score);
-	document.getElementById('player-bottom-card').innerHTML =
-		FiftyTwoCards[0].rank;
+	document.getElementById('player-bottom-card').src = FiftyTwoCards[0].src;
 	FiftyTwoCards.shift();
 	//
-	document.getElementById('dealer-bottom-card').innerHTML =
-		FiftyTwoCards[1].rank;
-	dealerHandArr.push(FiftyTwoCards[1].score);
+	document.getElementById('dealer-bottom-card').src = FiftyTwoCards[0].src;
+	dealerHandArr.push(FiftyTwoCards[0].score);
 	FiftyTwoCards.shift();
 	//
-	playerTop = FiftyTwoCards[2];
-	playerHandArr.push(FiftyTwoCards[2].score);
-	document.getElementById('player-top-card').innerHTML = FiftyTwoCards[2].rank;
+	playerTop = FiftyTwoCards[0];
+	playerHandArr.push(FiftyTwoCards[0].score);
+	document.getElementById('player-top-card').src = FiftyTwoCards[0].src;
 	FiftyTwoCards.shift();
 	//
-	dealerTop = FiftyTwoCards[3];
-	document.getElementById('dealer-top-card').innerHTML = FiftyTwoCards[3].rank;
-	dealerHandArr.push(FiftyTwoCards[3].score);
+	dealerTop = FiftyTwoCards[0];
+	document.getElementById('dealer-top-card').src = FiftyTwoCards[0].src;
+	dealerHandArr.push(FiftyTwoCards[0].score);
 	FiftyTwoCards.shift();
 }
 
@@ -170,41 +179,41 @@ function dealCards() {
 
 function checkForBlackjack() {
 	if (playerSum === 21) {
-		console.log('player blackjack');
+		winner.innerHTML = 'player blackjack';
 	} else if (playerSum > 21) {
-		console.log('player BUST');
+		winner.innerHTML = 'player BUST';
 	}
 
 	if (dealerSum === 21) {
-		console.log('dealer blackjack');
+		winner.innerHTML = 'dealer blackjack';
 	} else if (dealerSum > 21) {
-		console.log('dealer BUST');
+		winner.innerHTML = 'dealer BUST';
 	}
 
-	if (playerSum === dealerSum) {
-		console.log('PUSH');
+	if (playerSum === 21 && dealerSum === 21) {
+		winner.innerHTML = 'player blackjack pays 3 to 2!';
 	}
 }
 
 function checkForWinner() {
 	if (playerSum === dealerSum) {
-		console.log('push');
+		winner.innerHTML = 'push';
 	} else if (playerSum === 21 && playerHandArr.length === 2) {
-		console.log('player blackjack');
+		winner.innerHTML = 'player blackjack';
 	} else if (
 		dealerSum === 21 &&
 		dealerHandArr.length === 2 &&
 		playerSum !== 21
 	) {
-		console.log('dealer blackjack');
+		winner.innerHTML = 'dealer blackjack';
 	} else if (playerSum > dealerSum && playerSum < 21 && dealerSum < 21) {
-		console.log('player wins');
+		winner.innerHTML = 'player wins';
 	} else if (dealerSum > 21) {
-		console.log('dealer bust! player wins');
+		winner.innerHTML = 'dealer bust! player wins';
 	} else if (playerSum < dealerSum && playerSum < 21 && dealerSum < 21) {
-		console.log('dealer wins');
+		winner.innerHTML = 'dealer wins';
 	} else if (playerSum > 21) {
-		console.log('player bust! dealer wins');
+		winner.innerHTML = 'player bust! dealer wins';
 	}
 }
 
@@ -219,9 +228,6 @@ function playerCardTotal() {
 		if (playerHandArr[i] === 11 && playerSum > 21) {
 			playerSum -= 10;
 		}
-
-		console.log(playerHandArr);
-		console.log(playerSum);
 	}
 }
 
@@ -232,46 +238,50 @@ function dealerCardTotal() {
 		if (dealerSum > 21 && dealerHandArr[i] === 11) {
 			dealerSum -= 10;
 		}
-		console.log(dealerHandArr);
-		console.log(dealerSum);
 	}
 }
 
 function playerHit() {
-	newCardSlot = document.createElement('div');
-	newCardSlot.innerHTML = FiftyTwoCards[0].rank;
+	newCardSlot = document.createElement('img');
+	newCardSlot.src = FiftyTwoCards[0].src;
 	playerHand.appendChild(newCardSlot);
 	playerHandArr.push(FiftyTwoCards[0].score);
 	FiftyTwoCards.shift();
 
 	playerCardTotal();
-
-	console.log(playerSum);
 }
 
 //if the new card's value is 11 and the total is > 21, subtract 10.
 function dealerHit() {
 	while (dealerSum < 17) {
-		newCardSlot = document.createElement('div');
-		newCardSlot.innerHTML = FiftyTwoCards[0].rank;
+		newCardSlot = document.createElement('img');
+		newCardSlot.src = FiftyTwoCards[0].src;
 		dealerHand.appendChild(newCardSlot);
 		dealerHandArr.push(FiftyTwoCards[0].score);
 		FiftyTwoCards.shift();
 
 		dealerCardTotal();
-		console.log(dealerSum);
 	}
 }
 function stand() {
 	hitBtn.disabled = true;
 	dealerHit();
 	checkForWinner();
+	//unflip dealer bot card
 }
 
 // ---------------------------------- START GAME ---------------------------------- //
 
 function startGame() {
+	//reset vars
+	playerSum = 0;
+	dealerSum = 0;
+
+	hitBtn.disabled = false;
+
+	//function calls
 	dealCards();
+	shuffleCards();
 
 	playerCardTotal();
 	dealerCardTotal();
