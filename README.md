@@ -54,6 +54,7 @@ Major hurdles:
 Future additions:
 
 - mobile responsivity
+- bankroll moderation: user cannot bet more than their bankroll (negate a negative balance)
 - double button function: allow user to double their bet and hit for only one card
 - split button function: if the user is dealt a pair, they can split the pair and play different hands, wagering the same original bet for both hands
 - surrendering hand: if player does not like their hand, they can give up their hand and half their wager is returned
