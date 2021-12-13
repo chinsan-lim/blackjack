@@ -12,7 +12,7 @@ List of the Technologies used
 
 Installation instructions
 
-- load (url) into your browser and start playing!
+- load https://chinsan-lim.github.io/blackjack/ on your browser and start playing!
 
 Your User stories – who are your users, what do they want and why?
 
