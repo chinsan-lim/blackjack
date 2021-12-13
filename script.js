@@ -60,7 +60,7 @@ for (let j = 0; j < 8; j++) {
 					suits[i],
 					ranks[z],
 					score[ranks[z]],
-					`./cards/${suits[i]}-${ranks[z]}.svg`
+					`cards/${suits[i]}-${ranks[z]}.svg`
 				)
 			);
 		}
