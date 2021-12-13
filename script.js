@@ -101,13 +101,12 @@ const closeHowToPlayBtn = document.querySelector('.close-from-htp');
 // DECLARE constants for deck, hand arrays
 
 const deck = FiftyTwoCards;
-
 let playerHandArr = [];
 let dealerHandArr = [];
 
 // DECLARE state variables for bankroll, deckSize
-
-bankrollEl = 100;
+let bankroll = 100;
+bankrollEl.innerText = 100;
 let deckSize;
 let cardTotal;
 
@@ -126,7 +125,7 @@ hitBtn.addEventListener('click', playerHit);
 // dblBtn.addEventListener('click', dblBet);
 standBtn.addEventListener('click', stand);
 startBtn.addEventListener('click', startGame);
-// reDealBtn.addEventListener('click', startGame);
+reDealBtn.addEventListener('click', resetGame);
 
 // ---------------------------------- FUNCTIONS ---------------------------------- //
 
@@ -241,14 +240,16 @@ function checkForBlackjack() {
 	//initial check for blackjack after deal
 	if (playerHandArr.length === 2 && playerSum === 21) {
 		winner.innerHTML = 'auto player blackjack pays 3 to 2'; //auto player blackjack
-		bankrollEl += 1.5 * betAmt.value;
+		bankroll += 1.5 * Number(betAmt.value);
+		bankrollEl.innerHTML = bankroll;
 	} else if (
 		dealerHandArr.length === 2 &&
 		dealerSum === 21 &&
 		playerSum !== 21
 	) {
 		winner.innerHTML = 'auto dealer blackjack'; //auto dealer blackjack when player doesn't have 21
-		bankrollEl -= betAmt.value;
+		bankroll -= Number(betAmt.value);
+		bankrollEl.innerHTML = bankroll;
 	} else if (
 		playerHandArr.length === 0 &&
 		playerSum === 21 &&
@@ -256,29 +257,36 @@ function checkForBlackjack() {
 		dealerSum === 21
 	) {
 		winner.innerHTML = 'auto player blackjack pays 3 to 2'; //auto player blackjack before dealer gets blackjack
-		bankrollEl += 1.5 * betAmt.value;
+		bankroll += 1.5 * Number(betAmt.value);
+		bankrollEl.innerHTML = bankroll;
 	}
 }
 function checkForWinner() {
 	//in-game winner check when player stands and after dealer has stood/hit
 	if (playerSum === 21) {
 		winner.innerHTML = 'player blackjack!'; //player hits to bust
-		bankrollEl += betAmt.value;
+		bankroll += Number(betAmt.value);
+		bankrollEl.innerHTML = bankroll;
 	} else if (dealerSum === 21 && playerSum !== 21) {
 		winner.innerHTML = 'dealer blackjack!'; //player hits to bust
-		bankrollEl -= betAmt.value;
+		bankroll -= Number(betAmt.value);
+		bankrollEl.innerHTML = bankroll;
 	} else if (playerSum > 21) {
-		winner.innerHTML = 'player bust! dealer wins'; //player hits to bust
-		bankrollEl -= betAmt.value;
+		winner.innerHTML = `player bust with ${playerSum}! dealer wins`; //player hits to bust
+		bankroll -= Number(betAmt.value);
+		bankrollEl.innerHTML = bankroll;
 	} else if (playerSum < 21 && dealerSum > 21) {
-		winner.innerHTML = 'dealer bust! player wins'; //player stands under 21 and dealer busts
-		bankrollEl += betAmt.value;
+		winner.innerHTML = `dealer bust with ${dealerSum}! player wins`; //player stands under 21 and dealer busts
+		bankroll += Number(betAmt.value);
+		bankrollEl.innerHTML = bankroll;
 	} else if (playerSum > dealerSum && playerSum < 21 && dealerSum < 21) {
-		winner.innerHTML = 'player wins'; //player and dealer stand under 21, and playerSum is larger
-		bankrollEl += betAmt.value;
+		winner.innerHTML = `player wins with ${playerSum}`; //player and dealer stand under 21, and playerSum is larger
+		bankroll += Number(betAmt.value);
+		bankrollEl.innerHTML = bankroll;
 	} else if (playerSum < dealerSum && playerSum < 21 && dealerSum < 21) {
-		winner.innerHTML = 'dealer wins'; //player and dealer stand under 21, and dealerSum is larger
-		bankrollEl -= betAmt.value;
+		winner.innerHTML = `dealer wins with ${dealerSum}`; //player and dealer stand under 21, and dealerSum is larger
+		bankroll -= Number(betAmt.value);
+		bankrollEl.innerHTML = bankroll;
 	} else if (playerSum < 21 && dealerSum < 21 && playerSum === dealerSum) {
 		winner.innerHTML = 'push'; ////player and dealer stand under 21, and playerSum = dealerSum
 	}
@@ -286,12 +294,11 @@ function checkForWinner() {
 // ---------------------------------- RESET GAME ---------------------------------- //
 
 function resetGame() {
-	//reset vars
+	//reset sums
 	playerSum = 0;
 	dealerSum = 0;
 
-	playerHandArr = [];
-	dealerHandArr = [];
+	//remove added cards
 
 	while (playerHand.childNodes.length > 5) {
 		playerHand.removeChild(playerHand.lastChild);
@@ -302,45 +309,31 @@ function resetGame() {
 	}
 
 	//reset hand Arrays
+	playerHandArr = [];
+	dealerHandArr = [];
 
 	//reset winner button
-
-	//turn on hit button
+	winner.innerHTML = '';
+	//turn on hit button/betamt input
 
 	hitBtn.disabled = false;
 	betAmt.disabled = false;
-}
 
-function updateBankroll() {
-	let currentBet = betAmt.value;
-
-	//if gamestatus === win
-	//add currentBet to bankroll
-	//clear form
-	//else if gamestatus === lose
-	//subtract from bankroll
-	//clear form
-	//else if gamestatus === push
-	//clear form
-}
-
-// ---------------------------------- START GAME ---------------------------------- //
-
-function startGame() {
-    resetGame();
-	//function calls
+	//deal cards
 	dealCards();
-	shuffleCards();
 
 	playerCardTotal();
 	dealerCardTotal();
 
 	checkForBlackjack();
+}
 
-	//check for winner is called in stand AFTER dealer hits
+// ---------------------------------- START GAME ---------------------------------- //
 
-	updateBankroll();
-	
+function startGame() {
+	bankrollEl.innerText = 100;
+	shuffleCards();
+	resetGame();
 }
 
 startGame();
