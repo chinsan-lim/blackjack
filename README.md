@@ -1,68 +1,60 @@
-Pseudocode for Blackjack
+Blackjack ReadMe.md
 
-CREATE 52 card deck
+App Screenshot
 
-DECLARE constants for deck, bust, blackjack
-DECLARE state variables for betAmt, bankroll, deckSize
-DECLARE object for player/dealer with cardTotal
+![alt text](appss.png)
 
-REFERENCE hitBtn, standBtn, startBtn, howToPlayBtn, startModalBtn, closeHowToPlayBtn, reDealBtn
+List of the Technologies used
 
-INITIALIZE J, Q, K cards with value of '10'
-INITIALIZE ACE cards with value of '1' IF cardTotal <= 17 or '11' IF cardTotal > 17
+- HTML
+- CSS
+- Javascript
 
-ATTACH event listener to: - START - HOWTOPLAY - HIT - STAND - DOUBLE - SPLIT - REDEAL
+Installation instructions
 
-DECLARE function to:
+- load (url) into your browser and start playing!
 
-- DEAL
-  randomly assign card to player (face up), dealer (face up), player (face up), dealer (face down)
-- HIT
-  add card
-- STAND
-  end player turn
-- DEALER HIT
-  add cards until dealer.cardTotal > 17
-- COMPARE
-  player.cardTotal and dealer.cardTotal
-
-SUBTRACT betAmt from bankroll IF player.cardTotal > 21 OR dealer.cardTotal > player.cardTotal
-ADD betAmt to bankroll IF dealer.cardTotal > 21 OR dealer.cardTotal < player.cardTotal
-
-CLICK REDEAL btn to restart the game, with updated bankroll
-
-# Blackjack
-
-## Description
-
-A browser-based Blackjack game coded in HTML, CSS, JavaScript
-
-## Planning Process
-
-### User Stories
-
-#### MVP
+Your User stories – who are your users, what do they want and why?
 
 - As a user, I want to be able to place a bet, so I can win money from the dealer.
 - As a user, I want the game to deal 2 cards face up to me, and one card face up and one face down for the dealer.
 - As a user, I want to able to hit or add a card, so I can get closer to 21.
-- As a user, I want to able to double my bet for a one card hit, so I can get closer to 21 and win (or lose) twice my original ante.
 - As a user, I want to able to stand, so I can end my turn.
 - As a user, I want the dealer to hit until his cards add up to more than 17 (and hopefully more than 21).
 - As a user, I want the game to compare our card totals, so I can see who the winner is.
 - As a user, I want to able to restart the game with my updated bankroll, so I can keep playing
 
-#### Bronze
+Your Wireframes – sketches of major views / interfaces in your application
 
-- As a user, I want to able to split my hand if I am dealt a pair, so I can double my bet and get to play two different hands.
-  As a user, I want to able to split my hand if I am dealt a pair, so I can double my bet and get to play two different hands.
-  As a user, I want to able to surrender my hand and half my bet, if I want to end the round.
-  As a user, I want to able to be able buy insurance (Blackjack insurance odds pay out at 2/1 and the maximum bet allowed is generally half of the player’s main bet) when the dealer's top card is an Ace.
+![alt text](htpmodal.png)
 
-#### Silver
+Here are directions of how to play blackjack. It includes directions on how to get started.
 
-#### Gold
+![alt text](placebets.png)
 
-As a user, I want to able to be able to play with another player.
+Here is where you make all your decisions: bet size, hit, stand, or redeal. Your bankroll dynamically changes with your bet and outcome of the hand.
 
-### Wireframes
+![alt text](outcome.png)
+
+After your round ends, the winner is outputted in the center of your screen and your bankroll is updated. Note that after you click the stand button, your hit button and bet input fields are disabled to prevent adding more cards or changing your bet.
+
+Descriptions of any Unsolved problems or major hurdles you had to overcome
+
+Unsolved problems:
+
+- starting the game with an empty game board (I think I need to use the 'start new game' button to trigger the 'deal cards' function, but the issue is that my 'redeal hand' function calls upon the card deal. needs a bit of code restructuring)
+- revealing the dealer's bottom card without the user having to click on it (I could not figure out how to make the blue card bottom switch to transparent when the user clicks the 'stand' button.)
+
+Major hurdles:
+
+- using card images (I sourced the card images I was able to find and managed to connect them to each card value using string interpolation for the file path in the constructor function)
+- removing DOM created cards when the player/dealer hit (Strangely, the player hand and dealer hand arrays had 5 and 6 child nodes, respectively, when there were only 2 card elements in the hand. After further inspection, the extra elements were simple text elements, but I could not find where they were. The code was frankenstein-ed to account of the extra children)
+- dynamically changing the bankroll (changing back and forth between string and number variables made this a bit confusing)
+
+Future additions:
+
+- double button function: allow user to double their bet and hit for only one card
+- split button function: if the user is dealt a pair, they can split the pair and play different hands, wagering the same original bet for both hands
+- surrendering hand: if player does not like their hand, they can give up their hand and half their wager is returned
+- insurance: blackjack insurance odds pay out at 2/1 and the maximum bet allowed is generally half of the player’s main bet when the dealer's top card is an Ace.
+- adding a second player
