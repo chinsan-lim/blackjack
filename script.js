@@ -48,23 +48,24 @@ const score = {
 
 // card source images: https://totalnonsense.com/open-source-vector-playing-cards/
 
-let FiftyTwoCards = [];
+//create an 8 decks of 52 cards
+let EightDecks = [];
 
-//create rect card element here
-for (let i = 0; i < suits.length; i++) {
-	for (let z = 0; z < ranks.length; z++) {
-		FiftyTwoCards.push(
-			new Cards(
-				suits[i],
-				ranks[z],
-				score[ranks[z]],
-				`/cards/${suits[i]}-${ranks[z]}.svg`
-			)
-		);
+//create 8 card deck
+for (let j = 0; j < 8; j++) {
+	for (let i = 0; i < suits.length; i++) {
+		for (let z = 0; z < ranks.length; z++) {
+			EightDecks.push(
+				new Cards(
+					suits[i],
+					ranks[z],
+					score[ranks[z]],
+					`/cards/${suits[i]}-${ranks[z]}.svg`
+				)
+			);
+		}
 	}
 }
-
-console.log(FiftyTwoCards);
 
 //CREATE 8 DECKS
 
@@ -98,9 +99,8 @@ const startModalBtn = document.querySelector('.start-from-modal');
 const closeHowToPlayBtn = document.querySelector('.close-from-htp');
 
 // ---------------------------------- VARIABLES ---------------------------------- //
-// DECLARE constants for deck, hand arrays
+// DECLARE constants for hand arrays
 
-const deck = FiftyTwoCards;
 let playerHandArr = [];
 let dealerHandArr = [];
 
@@ -127,52 +127,48 @@ standBtn.addEventListener('click', stand);
 startBtn.addEventListener('click', startGame);
 reDealBtn.addEventListener('click', resetGame);
 
-// ---------------------------------- FUNCTIONS ---------------------------------- //
 
-// SHUFFLE THE DECK
+// ------------------------------- SHUFFLE DECK ------------------------------- //
+
 // bubblesorting cards in random locations
 
 function shuffleCards() {
-	for (let i = 0; i < FiftyTwoCards.length; i++) {
-		let placeholder = FiftyTwoCards[i];
-		let randomPosition = Math.floor(Math.random() * FiftyTwoCards.length);
-		FiftyTwoCards[i] = FiftyTwoCards[randomPosition];
-		FiftyTwoCards[randomPosition] = placeholder;
+	for (let i = 0; i < EightDecks.length; i++) {
+		let placeholder = EightDecks[i];
+		let randomPosition = Math.floor(Math.random() * EightDecks.length);
+		EightDecks[i] = EightDecks[randomPosition];
+		EightDecks[randomPosition] = placeholder;
 	}
 }
 
 shuffleCards();
 
-// DEAL OUT 4 CARDS
-// alternate the deal, starting with player and end with dealer
-// remove dealt cards from the original deck
+// --------------------------- DEAL INITIAL CARDS --------------------------- //
+
 
 function dealCards() {
-	playerBot = FiftyTwoCards[0];
-	playerHandArr.push(FiftyTwoCards[0].score);
-	document.getElementById('player-bottom-card').src = FiftyTwoCards[0].src;
-	FiftyTwoCards.shift();
+	playerBot = EightDecks[0];
+	playerHandArr.push(EightDecks[0].score);
+	document.getElementById('player-bottom-card').src = EightDecks[0].src;
+	EightDecks.shift();
 	//
-	document.getElementById('dealer-bottom-card').src = FiftyTwoCards[0].src;
-	dealerHandArr.push(FiftyTwoCards[0].score);
-	FiftyTwoCards.shift();
+	document.getElementById('dealer-bottom-card').src = EightDecks[0].src;
+	dealerHandArr.push(EightDecks[0].score);
+	EightDecks.shift();
 	//
-	playerTop = FiftyTwoCards[0];
-	playerHandArr.push(FiftyTwoCards[0].score);
-	document.getElementById('player-top-card').src = FiftyTwoCards[0].src;
-	FiftyTwoCards.shift();
+	playerTop = EightDecks[0];
+	playerHandArr.push(EightDecks[0].score);
+	document.getElementById('player-top-card').src = EightDecks[0].src;
+	EightDecks.shift();
 	//
-	dealerTop = FiftyTwoCards[0];
-	document.getElementById('dealer-top-card').src = FiftyTwoCards[0].src;
-	dealerHandArr.push(FiftyTwoCards[0].score);
-	FiftyTwoCards.shift();
+	dealerTop = EightDecks[0];
+	document.getElementById('dealer-top-card').src = EightDecks[0].src;
+	dealerHandArr.push(EightDecks[0].score);
+	EightDecks.shift();
 }
 
-// PLAYER CHOOSE TO HIT OR STAND
-// hit will add another card to player hand/array
-// stand will move the gameplay to the dealer hit
+// ------------------------------- HAND ARRAY CALCS ------------------------------- //
 
-//if the new card's value is 11 and the total is > 21, subtract 10.
 
 function playerCardTotal() {
 	playerSum = playerHandArr.reduce(sum);
@@ -194,12 +190,15 @@ function dealerCardTotal() {
 	}
 }
 
+// ------------------------------- HIT OR STAND ------------------------------- //
+
+
 function playerHit() {
 	newCardSlot = document.createElement('img');
-	newCardSlot.src = FiftyTwoCards[0].src;
+	newCardSlot.src = EightDecks[0].src;
 	playerHand.appendChild(newCardSlot);
-	playerHandArr.push(FiftyTwoCards[0].score);
-	FiftyTwoCards.shift();
+	playerHandArr.push(EightDecks[0].score);
+	EightDecks.shift();
 
 	playerCardTotal();
 }
@@ -207,10 +206,10 @@ function playerHit() {
 function dealerHit() {
 	while (dealerSum < 17) {
 		newCardSlot = document.createElement('img');
-		newCardSlot.src = FiftyTwoCards[0].src;
+		newCardSlot.src = EightDecks[0].src;
 		dealerHand.appendChild(newCardSlot);
-		dealerHandArr.push(FiftyTwoCards[0].score);
-		FiftyTwoCards.shift();
+		dealerHandArr.push(EightDecks[0].score);
+		EightDecks.shift();
 
 		dealerCardTotal();
 	}
@@ -337,3 +336,19 @@ function startGame() {
 }
 
 startGame();
+
+// -------------------------------- HOW TO PLAY -------------------------------- //
+// adapted from class notes //
+
+
+const openBtn = document.getElementById('openModal');
+const modal = document.getElementById('modal');
+const close = document.getElementById('close');
+const openModal = () => {
+	modal.style.display = 'block';
+};
+const closeModal = () => {
+	modal.style.display = 'none';
+};
+openBtn.addEventListener('click', openModal);
+close.addEventListener('click', closeModal);
