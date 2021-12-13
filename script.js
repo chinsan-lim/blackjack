@@ -60,7 +60,7 @@ for (let j = 0; j < 8; j++) {
 					suits[i],
 					ranks[z],
 					score[ranks[z]],
-					`/cards/${suits[i]}-${ranks[z]}.svg`
+					`./cards/${suits[i]}-${ranks[z]}.svg`
 				)
 			);
 		}
@@ -127,7 +127,6 @@ standBtn.addEventListener('click', stand);
 startBtn.addEventListener('click', startGame);
 reDealBtn.addEventListener('click', resetGame);
 
-
 // ------------------------------- SHUFFLE DECK ------------------------------- //
 
 // bubblesorting cards in random locations
@@ -144,7 +143,6 @@ function shuffleCards() {
 shuffleCards();
 
 // --------------------------- DEAL INITIAL CARDS --------------------------- //
-
 
 function dealCards() {
 	playerBot = EightDecks[0];
@@ -169,7 +167,6 @@ function dealCards() {
 
 // ------------------------------- HAND ARRAY CALCS ------------------------------- //
 
-
 function playerCardTotal() {
 	playerSum = playerHandArr.reduce(sum);
 
@@ -191,7 +188,6 @@ function dealerCardTotal() {
 }
 
 // ------------------------------- HIT OR STAND ------------------------------- //
-
 
 function playerHit() {
 	newCardSlot = document.createElement('img');
@@ -339,7 +335,6 @@ startGame();
 
 // -------------------------------- HOW TO PLAY -------------------------------- //
 // adapted from class notes //
-
 
 const openBtn = document.getElementById('openModal');
 const modal = document.getElementById('modal');
